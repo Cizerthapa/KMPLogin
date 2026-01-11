@@ -24,9 +24,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoginScreen() {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun LoginScreen(onLoginSuccess: () -> Unit) {
+    var username by remember { mutableStateOf("emilys") }
+    var password by remember { mutableStateOf("emilyspass") }
     var isLoggingIn by remember { mutableStateOf(false) }
     var loginResult by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
@@ -72,6 +72,7 @@ fun LoginScreen() {
                     isLoggingIn = false
                     result.onSuccess { response ->
                         loginResult = "Success: Welcome ${response.firstName}!"
+                        onLoginSuccess()
                     }.onFailure {
                         loginResult = "Error: ${it.message}"
                     }
