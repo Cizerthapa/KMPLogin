@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -25,6 +27,9 @@ import androidx.compose.ui.unit.dp
 fun LoginScreen() {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isLoggingIn by remember { mutableStateOf(false) }
+    var loginResult by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -59,10 +64,33 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { /* TODO: Handle login */ },
+            onClick = {
+                scope.launch {
+                    isLoggingIn = true
+                    loginResult = null
+                    val result = AuthClient.login(LoginRequest(username, password))
+                    isLoggingIn = false
+                    result.onSuccess { 
+                        loginResult = "Success: Token received"
+                    }.onFailure {
+                        loginResult = "Error: ${it.message}"
+                    }
+                }
+            },
+            enabled = !isLoggingIn,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Login")
+            if (isLoggingIn) {
+                Text("Logging in...")
+            } else {
+                Text("Login")
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        loginResult?.let {
+            Text(text = it, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
