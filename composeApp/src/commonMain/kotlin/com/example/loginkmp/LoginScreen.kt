@@ -70,8 +70,8 @@ fun LoginScreen() {
                     loginResult = null
                     val result = AuthClient.login(LoginRequest(username, password))
                     isLoggingIn = false
-                    result.onSuccess { 
-                        loginResult = "Success: Token received"
+                    result.onSuccess { response ->
+                        loginResult = "Success: Welcome ${response.firstName}!"
                     }.onFailure {
                         loginResult = "Error: ${it.message}"
                     }
