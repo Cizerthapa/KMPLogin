@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 // I'll stick to text + maybe a placeholder box.
 
 @Composable
-fun ProductListScreen() {
+fun ProductListScreen(onProductClick: (Int) -> Unit) {
     var products by remember { mutableStateOf<List<Product>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -81,7 +81,7 @@ fun ProductListScreen() {
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
                 items(products) { product ->
-                    ProductItem(product)
+                    ProductItem(product, onClick = { onProductClick(product.id) })
                 }
             }
         }
@@ -89,10 +89,11 @@ fun ProductListScreen() {
 }
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        onClick = onClick
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             // Placeholder for Image

@@ -16,7 +16,20 @@ fun App() {
         var isLoggedIn by remember { mutableStateOf(false) }
 
         if (isLoggedIn) {
-            ProductListScreen()
+            var selectedProductId by remember { mutableStateOf<Int?>(null) }
+
+            if (selectedProductId != null) {
+                ProductDetailScreen(
+                    productId = selectedProductId!!,
+                    onBack = { selectedProductId = null }
+                )
+            } else {
+                ProductListScreen(
+                    onProductClick = { productId ->
+                        selectedProductId = productId
+                    }
+                )
+            }
         } else {
             LoginScreen(
                 onLoginSuccess = {
