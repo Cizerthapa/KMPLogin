@@ -7,13 +7,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+
 import androidx.compose.runtime.setValue
+import com.example.loginkmp.data.ProductRepository
+
 
 @Composable
 @Preview
-fun App() {
+fun App(repository: ProductRepository) {
     MaterialTheme {
-        var isLoggedIn by remember { mutableStateOf(false) }
+        var isLoggedIn by remember { mutableStateOf(SessionManager.isLoggedIn()) }
 
         if (isLoggedIn) {
             var selectedProductId by remember { mutableStateOf<Int?>(null) }
@@ -21,10 +24,12 @@ fun App() {
             if (selectedProductId != null) {
                 ProductDetailScreen(
                     productId = selectedProductId!!,
+                    repository = repository,
                     onBack = { selectedProductId = null }
                 )
             } else {
                 ProductListScreen(
+                    repository = repository,
                     onProductClick = { productId ->
                         selectedProductId = productId
                     }

@@ -51,17 +51,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.example.loginkmp.data.ProductRepository
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(productId: Int, onBack: () -> Unit) {
+fun ProductDetailScreen(
+    productId: Int, 
+    onBack: () -> Unit,
+    repository: ProductRepository
+) {
     var product by remember { mutableStateOf<Product?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedImageIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(productId) {
-        AuthClient.getProduct(productId)
+        repository.getProduct(productId)
             .onSuccess {
                 product = it
                 isLoading = false

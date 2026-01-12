@@ -198,6 +198,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                                         val result = AuthClient.login(LoginRequest(username, password))
                                         isLoggingIn = false
                                         result.onSuccess { response ->
+                                            SessionManager.saveUserSession(response)
                                             loginResult = "Welcome back, ${response.firstName}!"
                                             isError = false
                                             onLoginSuccess()
@@ -229,6 +230,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                                 val result = AuthClient.login(LoginRequest(username, password))
                                 isLoggingIn = false
                                 result.onSuccess { response ->
+                                    SessionManager.saveUserSession(response)
                                     loginResult = "Welcome back, ${response.firstName}!"
                                     isError = false
                                     onLoginSuccess()

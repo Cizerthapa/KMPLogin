@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -34,6 +36,11 @@ kotlin {
             implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.settings)
+            implementation(libs.settings.no.arg)
             implementation(compose.materialIconsExtended)
             implementation("io.coil-kt:coil-compose:2.5.0")
         }
@@ -72,7 +79,14 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+}
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
 
+dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspAndroid", libs.androidx.room.compiler)
 }
 

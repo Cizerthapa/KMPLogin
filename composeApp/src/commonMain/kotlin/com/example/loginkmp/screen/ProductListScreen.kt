@@ -20,23 +20,28 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.loginkmp.data.ProductRepository
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductListScreen(onProductClick: (Int) -> Unit) {
-    var products by remember { mutableStateOf<List<Product>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
+fun ProductListScreen(
+    onProductClick: (Int) -> Unit,
+    repository: ProductRepository
+) {
+    val products by repository.products.collectAsState(initial = emptyList())
+    var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        AuthClient.getProducts()
-            .onSuccess { 
-                products = it.products
-                isLoading = false
-            }
+        isLoading = true
+        repository.refreshProducts()
             .onFailure { 
                 error = it.message
+                isLoading = false
+            }
+            .onSuccess {
                 isLoading = false
             }
     }
