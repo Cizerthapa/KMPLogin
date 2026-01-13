@@ -12,10 +12,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.*
@@ -24,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import androidx.compose.ui.text.style.TextAlign
 import com.example.loginkmp.viewmodel.ProductsViewModel
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,7 +44,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
@@ -61,6 +58,10 @@ import androidx.compose.animation.core.animate
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -403,36 +404,31 @@ private fun AnimatedShimmerProductItem() {
 
 @Composable
 fun Modifier.shimmerEffect(): Modifier = composed {
-    var progress by remember { mutableStateOf(0f) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            progress = 0f
-            animate(
-                initialValue = 0f,
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(1000, easing = LinearEasing),
-                    repeatMode = RepeatMode.Restart
-                )
-            ) { value, _ -> progress = value }
-        }
-    }
-
-    this.then(
-        Modifier.background(
-            brush = Brush.linearGradient(
-                colors = listOf(
-                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
-                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-                ),
-                start = Offset(progress * 1000 - 500, 0f),
-                end = Offset(progress * 1000, 0f)
-            ),
-            shape = RoundedCornerShape(4.dp)
+    var size by remember { mutableStateOf(androidx.compose.ui.unit.IntSize.Zero) }
+    val transition = rememberInfiniteTransition()
+    val startOffsetX by transition.animateFloat(
+        initialValue = -2 * size.width.toFloat(),
+        targetValue = 2 * size.width.toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000)
         )
     )
+
+    this
+        .background(
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    Color(0xFFB8B5B5),
+                    Color(0xFF8F8B8B),
+                    Color(0xFFB8B5B5),
+                ),
+                start = Offset(startOffsetX, 0f),
+                end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
+            )
+        )
+        .onGloballyPositioned {
+            size = it.size
+        }
 }
 
 @Composable
@@ -654,13 +650,10 @@ private fun CompactProductItem(product: Product) {
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(0.dp)
         ) {
-            AsyncImage(
-                model = product.thumbnail,
+            ProductImage(
+                imageUrl = product.thumbnail,
                 contentDescription = product.title,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                placeholder = rememberVectorPainter(Icons.Default.Image),
-                error = rememberVectorPainter(Icons.Default.BrokenImage)
+                modifier = Modifier.fillMaxSize()
             )
         }
 
@@ -721,13 +714,10 @@ private fun ExpandedProductItem(product: Product) {
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(0.dp)
         ) {
-            AsyncImage(
-                model = product.thumbnail,
+            ProductImage(
+                imageUrl = product.thumbnail,
                 contentDescription = product.title,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                placeholder = rememberVectorPainter(Icons.Default.Image),
-                error = rememberVectorPainter(Icons.Default.BrokenImage)
+                modifier = Modifier.fillMaxSize()
             )
         }
 
@@ -809,4 +799,33 @@ private fun RatingBar(rating: Float) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
+}
+
+@Composable
+fun ProductImage(
+    imageUrl: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    SubcomposeAsyncImage(
+        model = imageUrl,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        contentScale = ContentScale.Crop,
+        loading = {
+            Box(modifier = Modifier.fillMaxSize().shimmerEffect())
+        },
+        error = {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.BrokenImage,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+    )
 }
