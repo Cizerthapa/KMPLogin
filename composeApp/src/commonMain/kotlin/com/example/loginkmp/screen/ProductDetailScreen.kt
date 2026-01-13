@@ -34,7 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.filled.CheckCircle
@@ -50,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.example.loginkmp.components.ProductImage
 import com.example.loginkmp.data.ProductRepository
 import com.example.loginkmp.models.Product
 import com.example.loginkmp.theme.SuccessGreen
@@ -307,8 +308,8 @@ fun ImageCarousel(
                 .height(400.dp)
                 .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            AsyncImage(
-                model = images[selectedIndex],
+            ProductImage(
+                imageUrl = images[selectedIndex],
                 contentDescription = "Product image",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
@@ -333,8 +334,8 @@ fun ImageCarousel(
                         else 
                             null
                     ) {
-                        AsyncImage(
-                            model = imageUrl,
+                        ProductImage(
+                            imageUrl = imageUrl,
                             contentDescription = "Thumbnail ${index + 1}",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
