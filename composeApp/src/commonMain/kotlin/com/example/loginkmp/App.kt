@@ -1,20 +1,20 @@
 package com.example.loginkmp
 
-import com.example.loginkmp.presentation.theme.AppTheme
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.loginkmp.data.local.SessionManager
 import com.example.loginkmp.domain.repository.ProductRepository
-import com.example.loginkmp.presentation.screen.ProfileScreen
-import com.example.loginkmp.presentation.screen.ProductDetailScreen
-import com.example.loginkmp.presentation.screen.ProductsScreen
-import com.example.loginkmp.presentation.screen.LoginScreen
+import com.example.loginkmp.presentation.screen.login.LoginScreen
+import com.example.loginkmp.presentation.screen.productdetail.ProductDetailScreen
+import com.example.loginkmp.presentation.screen.productlist.ProductsScreen
+import com.example.loginkmp.presentation.screen.profile.ProfileScreen
+import com.example.loginkmp.presentation.theme.AppTheme
 import com.example.loginkmp.presentation.viewmodel.ProductDetailViewModel
 import com.example.loginkmp.presentation.viewmodel.ProductsViewModel
-import com.example.loginkmp.data.local.SessionManager
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
@@ -35,12 +35,13 @@ fun App(repository: ProductRepository) {
                         onBack = { showProfile = false }
                     )
                 }
+
                 else -> {
                     var selectedProductId by remember { mutableStateOf<Int?>(null) }
 
                     if (selectedProductId != null) {
-                        val productDetailViewModel = remember { 
-                            ProductDetailViewModel(repository) 
+                        val productDetailViewModel = remember {
+                            ProductDetailViewModel(repository)
                         }
                         ProductDetailScreen(
                             productId = selectedProductId!!,

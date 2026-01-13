@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import com.example.loginkmp.data.local.SessionManager
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Logout
@@ -40,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.loginkmp.data.local.SessionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,7 +96,7 @@ fun ProfileScreen(
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
-            
+
             SessionManager.getUserName()?.let { username ->
                 Text(
                     text = "@$username",
@@ -120,7 +120,7 @@ fun ProfileScreen(
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Theme Toggle
@@ -141,7 +141,7 @@ fun ProfileScreen(
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }
-                        
+
                         Switch(
                             checked = isDarkTheme,
                             onCheckedChange = onThemeChange,
@@ -177,7 +177,7 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Log Out")
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
