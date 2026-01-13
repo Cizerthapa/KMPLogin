@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d66897688882414b4c613540102642ba",
+    "identityHash": "a4828f14fdefe807048bce08f686edfc",
     "entities": [
       {
         "tableName": "products",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `price` REAL NOT NULL, `discountPercentage` REAL NOT NULL, `rating` REAL NOT NULL, `stock` INTEGER NOT NULL, `tags` TEXT NOT NULL, `brand` TEXT, `sku` TEXT NOT NULL, `weight` INTEGER NOT NULL, `thumbnail` TEXT NOT NULL, `images` TEXT NOT NULL, `dimensions` TEXT NOT NULL, `warrantyInformation` TEXT NOT NULL, `shippingInformation` TEXT NOT NULL, `availabilityStatus` TEXT NOT NULL, `reviews` TEXT NOT NULL, `returnPolicy` TEXT NOT NULL, `minimumOrderQuantity` INTEGER NOT NULL, `meta` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `price` REAL NOT NULL, `discountPercentage` REAL NOT NULL, `rating` REAL NOT NULL, `stock` INTEGER NOT NULL, `tags` TEXT NOT NULL, `brand` TEXT, `sku` TEXT NOT NULL, `weight` INTEGER NOT NULL, `thumbnail` TEXT, `images` TEXT NOT NULL, `dimensions` TEXT NOT NULL, `warrantyInformation` TEXT NOT NULL, `shippingInformation` TEXT NOT NULL, `availabilityStatus` TEXT NOT NULL, `reviews` TEXT NOT NULL, `returnPolicy` TEXT NOT NULL, `minimumOrderQuantity` INTEGER NOT NULL, `meta` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -82,8 +82,7 @@
           {
             "fieldPath": "thumbnail",
             "columnName": "thumbnail",
-            "affinity": "TEXT",
-            "notNull": true
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "images",
@@ -150,7 +149,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd66897688882414b4c613540102642ba')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a4828f14fdefe807048bce08f686edfc')"
     ]
   }
 }

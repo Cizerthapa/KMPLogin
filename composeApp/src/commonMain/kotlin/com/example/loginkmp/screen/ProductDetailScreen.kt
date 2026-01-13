@@ -52,6 +52,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.example.loginkmp.data.ProductRepository
+import com.example.loginkmp.models.Product
 
 
 @OptIn(ExperimentalMaterial3Api::class)

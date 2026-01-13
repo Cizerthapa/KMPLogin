@@ -9,7 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 
 import androidx.compose.runtime.setValue
+import com.example.loginkmp.viewmodel.ProductsViewModel
 import com.example.loginkmp.data.ProductRepository
+import com.example.loginkmp.models.Product
 
 
 @Composable
@@ -28,8 +30,9 @@ fun App(repository: ProductRepository) {
                     onBack = { selectedProductId = null }
                 )
             } else {
-                ProductListScreen(
-                    repository = repository,
+                val viewModel = remember { com.example.loginkmp.viewmodel.ProductsViewModel(repository) }
+                ProductsScreen(
+                    viewModel = viewModel,
                     onProductClick = { productId ->
                         selectedProductId = productId
                     }

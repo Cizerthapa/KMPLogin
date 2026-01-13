@@ -1,6 +1,14 @@
-package com.example.loginkmp
+package com.example.loginkmp.models
 
 import kotlinx.serialization.Serializable
+
+@Serializable
+data class ProductsResponse(
+    val products: List<Product>,
+    val total: Int,
+    val skip: Int,
+    val limit: Int
+)
 
 @Serializable
 data class Product(
@@ -24,7 +32,7 @@ data class Product(
     val returnPolicy: String,
     val minimumOrderQuantity: Int,
     val meta: Meta,
-    val thumbnail: String,
+    val thumbnail: String?,
     val images: List<String>
 )
 

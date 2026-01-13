@@ -31,22 +31,4 @@ object AuthClient {
             Result.failure(e)
         }
     }
-
-    suspend fun getProducts(): Result<ProductResponse> {
-        return try {
-            val response: ProductResponse = client.request("https://dummyjson.com/products").body()
-            Result.success(response)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getProduct(id: Int): Result<Product> {
-        return try {
-            val response: Product = client.request("https://dummyjson.com/products/$id").body()
-            Result.success(response)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 }

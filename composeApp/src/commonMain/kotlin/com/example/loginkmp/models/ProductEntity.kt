@@ -5,10 +5,6 @@ import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import com.example.loginkmp.Product
-import com.example.loginkmp.Dimensions
-import com.example.loginkmp.Review
-import com.example.loginkmp.Meta
 
 @Entity(tableName = "products")
 data class ProductEntity(
@@ -24,7 +20,7 @@ data class ProductEntity(
     val brand: String?,
     val sku: String,
     val weight: Int,
-    val thumbnail: String,
+    val thumbnail: String?,
     val images: String, // List<String> serialized
     // Storing other complex objects as JSON strings for simplicity
     val dimensions: String, 
