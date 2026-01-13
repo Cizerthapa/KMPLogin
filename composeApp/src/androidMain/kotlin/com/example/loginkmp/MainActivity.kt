@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.loginkmp.models.getDatabaseBuilder
-import com.example.loginkmp.data.ProductRepository
+import com.example.loginkmp.data.local.db.getDatabaseBuilder
+import com.example.loginkmp.data.repository.ProductRepositoryImpl
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 })
             }
         }
-        val repo = ProductRepository(db.productDao(), client)
+        val repo = ProductRepositoryImpl(db.productDao(), client)
 
         setContent {
             App(repo)
