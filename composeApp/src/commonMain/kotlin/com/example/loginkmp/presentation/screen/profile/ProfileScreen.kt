@@ -1,4 +1,4 @@
-package com.example.loginkmp.presentation.screen
+package com.example.loginkmp.presentation.screen.profile
 
 
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.example.loginkmp.presentation.screen
+package com.example.loginkmp.presentation.screen.productdetail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke

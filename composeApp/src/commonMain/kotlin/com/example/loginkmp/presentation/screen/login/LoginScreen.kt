@@ -1,4 +1,4 @@
-package com.example.loginkmp.presentation.screen
+package com.example.loginkmp.presentation.screen.login
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
