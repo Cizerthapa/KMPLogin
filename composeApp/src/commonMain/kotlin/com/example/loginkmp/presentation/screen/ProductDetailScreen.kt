@@ -1,7 +1,10 @@
 package com.example.loginkmp.presentation.screen
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,40 +22,35 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.loginkmp.presentation.components.ProductImage
-
-import com.example.loginkmp.domain.model.Product
 import com.example.loginkmp.presentation.theme.SuccessGreen
 import com.example.loginkmp.presentation.theme.WarningYellow
 import com.example.loginkmp.presentation.viewmodel.ProductDetailViewModel
@@ -61,12 +59,12 @@ import com.example.loginkmp.presentation.viewmodel.ProductDetailViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
-    productId: Int, 
+    productId: Int,
     onBack: () -> Unit,
     viewModel: ProductDetailViewModel
 ) {
     val state = viewModel.state
-    var selectedImageIndex by remember { mutableStateOf(0) }
+    var selectedImageIndex by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
@@ -98,6 +96,7 @@ fun ProductDetailScreen(
                     CircularProgressIndicator()
                 }
             }
+
             state.error != null -> {
                 Box(
                     modifier = Modifier
@@ -124,6 +123,7 @@ fun ProductDetailScreen(
                     }
                 }
             }
+
             else -> {
                 state.product?.let { prod ->
                     Column(
@@ -132,7 +132,7 @@ fun ProductDetailScreen(
                             .verticalScroll(rememberScrollState())
                     ) {
                         // Image Carousel
-                        if (!prod.images.isNullOrEmpty()) {
+                        if (prod.images.isNotEmpty()) {
                             ImageCarousel(
                                 images = prod.images,
                                 selectedIndex = selectedImageIndex,
@@ -150,9 +150,9 @@ fun ProductDetailScreen(
                                 style = MaterialTheme.typography.headlineMedium,
                                 fontWeight = FontWeight.Bold
                             )
-                            
+
                             Spacer(modifier = Modifier.height(4.dp))
-                            
+
                             if (!prod.brand.isNullOrEmpty()) {
                                 Text(
                                     text = prod.brand,
@@ -184,7 +184,7 @@ fun ProductDetailScreen(
                                             color = MaterialTheme.colorScheme.primary,
                                             fontWeight = FontWeight.Bold
                                         )
-                                        if (prod.discountPercentage != null && prod.discountPercentage > 0) {
+                                        if (prod.discountPercentage > 0) {
                                             Text(
                                                 text = "${prod.discountPercentage}% OFF",
                                                 style = MaterialTheme.typography.labelMedium,
@@ -192,8 +192,8 @@ fun ProductDetailScreen(
                                             )
                                         }
                                     }
-                                    
-                                    RatingDisplay(rating = prod.rating ?: 0.0)
+
+                                    RatingDisplay(rating = prod.rating)
                                 }
                             }
 
@@ -204,27 +204,27 @@ fun ProductDetailScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = if (prod.stock > 0) 
+                                    imageVector = if (prod.stock > 0)
                                         Icons.Default.CheckCircle
-                                    else 
+                                    else
                                         Icons.Default.Cancel,
                                     contentDescription = null,
-                                    tint = if (prod.stock > 0) 
-                                        SuccessGreen 
-                                    else 
+                                    tint = if (prod.stock > 0)
+                                        SuccessGreen
+                                    else
                                         MaterialTheme.colorScheme.error,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = if (prod.stock > 0) 
-                                        "In Stock (${prod.stock} available)" 
-                                    else 
+                                    text = if (prod.stock > 0)
+                                        "In Stock (${prod.stock} available)"
+                                    else
                                         "Out of Stock",
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = if (prod.stock > 0) 
-                                        SuccessGreen 
-                                    else 
+                                    color = if (prod.stock > 0)
+                                        SuccessGreen
+                                    else
                                         MaterialTheme.colorScheme.error,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -246,29 +246,29 @@ fun ProductDetailScreen(
                             )
 
                             // Additional Information
-                            if (!prod.category.isNullOrEmpty() || !prod.returnPolicy.isNullOrEmpty()) {
+                            if (prod.category.isNotEmpty() || prod.returnPolicy.isNotEmpty()) {
                                 Spacer(modifier = Modifier.height(24.dp))
-                                
+
                                 HorizontalDivider()
-                                
+
                                 Spacer(modifier = Modifier.height(16.dp))
-                                
+
                                 Text(
                                     text = "Additional Information",
                                     style = MaterialTheme.typography.titleLarge,
                                     fontWeight = FontWeight.SemiBold
                                 )
-                                
+
                                 Spacer(modifier = Modifier.height(12.dp))
-                                
-                                if (!prod.category.isNullOrEmpty()) {
+
+                                if (prod.category.isNotEmpty()) {
                                     InfoRow(
                                         label = "Category",
                                         value = prod.category
                                     )
                                 }
-                                
-                                if (!prod.returnPolicy.isNullOrEmpty()) {
+
+                                if (prod.returnPolicy.isNotEmpty()) {
                                     InfoRow(
                                         label = "Return Policy",
                                         value = prod.returnPolicy
@@ -320,9 +320,9 @@ fun ImageCarousel(
                         modifier = Modifier
                             .size(80.dp)
                             .clickable { onImageSelected(index) },
-                        border = if (index == selectedIndex) 
-                            BorderStroke(2.dp, MaterialTheme.colorScheme.primary) 
-                        else 
+                        border = if (index == selectedIndex)
+                            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                        else
                             null
                     ) {
                         ProductImage(
@@ -338,6 +338,7 @@ fun ImageCarousel(
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun RatingDisplay(rating: Double) {
     Row(
