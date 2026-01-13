@@ -47,12 +47,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.example.loginkmp.data.ProductRepository
 import com.example.loginkmp.models.Product
+import com.example.loginkmp.theme.SuccessGreen
+import com.example.loginkmp.theme.WarningYellow
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -217,7 +218,7 @@ fun ProductDetailScreen(
                                         Icons.Default.Cancel,
                                     contentDescription = null,
                                     tint = if (prod.stock > 0) 
-                                        Color(0xFF4CAF50) 
+                                        SuccessGreen 
                                     else 
                                         MaterialTheme.colorScheme.error,
                                     modifier = Modifier.size(20.dp)
@@ -230,7 +231,7 @@ fun ProductDetailScreen(
                                         "Out of Stock",
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = if (prod.stock > 0) 
-                                        Color(0xFF4CAF50) 
+                                        SuccessGreen 
                                     else 
                                         MaterialTheme.colorScheme.error,
                                     fontWeight = FontWeight.Medium
@@ -353,7 +354,7 @@ fun RatingDisplay(rating: Double) {
         Icon(
             imageVector = Icons.Default.Star,
             contentDescription = null,
-            tint = Color(0xFFFFC107),
+            tint = WarningYellow,
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))

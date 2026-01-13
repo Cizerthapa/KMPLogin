@@ -51,9 +51,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF6B4CE6),
-                        Color(0xFF9B6BF2),
-                        Color(0xFFB794F6)
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.secondary,
+                        MaterialTheme.colorScheme.tertiary
                     )
                 )
             )
@@ -141,9 +141,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         ),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFF6B4CE6),
-                            focusedLabelColor = Color(0xFF6B4CE6),
-                            focusedLeadingIconColor = Color(0xFF6B4CE6)
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedLabelColor = MaterialTheme.colorScheme.primary,
+                            focusedLeadingIconColor = MaterialTheme.colorScheme.primary
                         )
                     )
 
@@ -212,9 +212,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         ),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFF6B4CE6),
-                            focusedLabelColor = Color(0xFF6B4CE6),
-                            focusedLeadingIconColor = Color(0xFF6B4CE6)
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedLabelColor = MaterialTheme.colorScheme.primary,
+                            focusedLeadingIconColor = MaterialTheme.colorScheme.primary
                         )
                     )
 
@@ -246,8 +246,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                             .height(56.dp),
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF6B4CE6),
-                            disabledContainerColor = Color(0xFF6B4CE6).copy(alpha = 0.5f)
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
                         )
                     ) {
                         if (isLoggingIn) {
