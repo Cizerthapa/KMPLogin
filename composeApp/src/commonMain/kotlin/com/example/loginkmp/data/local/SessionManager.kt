@@ -20,8 +20,8 @@ object SessionManager {
         settings.remove(KEY_AUTH_TOKEN)
         settings.remove(KEY_USER_NAME)
         settings.remove(KEY_USER_FIRST_NAME)
-        // Alternatively, if you want to clear all settings:
-        // settings.clear()
+        // if you want to clear all settings
+        settings.clear()
     }
     
     fun isLoggedIn(): Boolean {
