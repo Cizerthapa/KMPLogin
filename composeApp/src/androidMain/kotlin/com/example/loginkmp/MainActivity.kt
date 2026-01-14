@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.loginkmp.data.local.db.getDatabaseBuilder
+import com.example.loginkmp.data.repository.CartRepositoryImpl
 import com.example.loginkmp.data.repository.ProductRepositoryImpl
 
 import io.ktor.client.HttpClient
@@ -25,10 +26,11 @@ class MainActivity : ComponentActivity() {
                 })
             }
         }
-        val repo = ProductRepositoryImpl(db.productDao(), client)
+        val productRepo = ProductRepositoryImpl(db.productDao(), client)
+        val cartRepo = CartRepositoryImpl()
 
         setContent {
-            App(repo)
+            App(productRepo, cartRepo)
         }
     }
 }
